@@ -6,9 +6,15 @@ function [X_norm, mu, sigma] = featureNormalize(X)
 %   working with learning algorithms.
 
 % You need to set these values correctly
-X_norm = X;
-mu = zeros(1, size(X, 2));
-sigma = zeros(1, size(X, 2));
+
+mu =  mean(X);
+sigma = std(X);
+X_norm = bsxfun(@minus, X, mu);
+X_norm = bsxfun(@rdivide, X_norm, sigma);
+
+
+    % Subtract the mean value of each feature from the dataset.
+    
 
 % ====================== YOUR CODE HERE ======================
 % Instructions: First, for each feature dimension, compute the mean
