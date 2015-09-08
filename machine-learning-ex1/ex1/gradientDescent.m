@@ -19,7 +19,14 @@ for iter = 1:num_iters
 
 
 
+     h = (X * theta - y)';        
+%     theta(1) = theta(1) - alpha * (1/m) * h * X(:, 1);
+%     theta(2) = theta(2) - alpha * (1/m) * h * X(:, 2);   
 
+%      theta = theta - (1/m) * ((h * X)' * alpha);
+
+     theta = theta - alpha * 1/m * (h * X)';
+    
 
 
 
