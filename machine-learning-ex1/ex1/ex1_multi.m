@@ -88,12 +88,34 @@ num_iters = 400;
 % Init Theta and Run Gradient Descent 
 theta = zeros(3, 1);
 [theta, J_history] = gradientDescentMulti(X, y, theta, alpha, num_iters);
+% theta = zeros(3, 1);
+% [theta, J01_history] = gradientDescentMulti(X, y, theta, 0.01, num_iters);
+% theta = zeros(3, 1);
+% [theta, J03_history] = gradientDescentMulti(X, y, theta, 0.02, num_iters);
+% theta = zeros(3, 1);
+% [theta, J06_history] = gradientDescentMulti(X, y, theta, 0.03, num_iters);
+% theta = zeros(3, 1);
+% [theta, J10_history] = gradientDescentMulti(X, y, theta, 0.009999, num_iters);
+% theta = zeros(3, 1);
+% [theta, J30_history] = gradientDescentMulti(X, y, theta, 0.009, num_iters);
+% theta = zeros(3, 1);
+% [theta, J60_history] = gradientDescentMulti(X, y, theta, 0.008, num_iters);
+% theta = zeros(3, 1);
+% [theta, J90_history] = gradientDescentMulti(X, y, theta, 0.04, num_iters);
 
 % Plot the convergence graph
 figure;
 plot(1:numel(J_history), J_history, '-b', 'LineWidth', 2);
 xlabel('Number of iterations');
 ylabel('Cost J');
+% hold on;
+% plot(1:numel(J01_history), J01_history, '-r', 'LineWidth', 1);
+% plot(1:numel(J03_history), J03_history, '-r', 'LineWidth', 1);
+% plot(1:numel(J06_history), J06_history, '-r', 'LineWidth', 1);
+% plot(1:numel(J10_history), J10_history, '-r', 'LineWidth', 1);
+% plot(1:numel(J30_history), J30_history, '-r', 'LineWidth', 1);
+% plot(1:numel(J60_history), J60_history, '-r', 'LineWidth', 1);
+% plot(1:numel(J90_history), J90_history, '-r', 'LineWidth', 1);
 
 % Display gradient descent's result
 fprintf('Theta computed from gradient descent: \n');
