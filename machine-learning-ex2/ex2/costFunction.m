@@ -5,7 +5,7 @@ function [J, grad] = costFunction(theta, X, y)
 %   w.r.t. to the parameters.
 
 % Initialize some useful values
-m = length(y); % number of training examples
+m = length(y);% number of training examples
 
 % You need to return the following variables correctly 
 % J = 0;
@@ -14,12 +14,11 @@ m = length(y); % number of training examples
 % neg = log(1-sigmoid(X*theta));
 % disp(pos);
 % disp(neg);
-J = (1/m)*(-y.* log(sigmoid(X*theta)) - (1-y).* log(1-sigmoid(X*theta)));
-% grad = (1/m)*(sigmoid(X*theta))*X;
-
-     h = sigmoid(X*theta);        
-%      grad = theta - alpha * 1/m * (h * X)';
-     grad = ones(size(theta))./m.* ((h-y)'*X)';
+hx = sigmoid(X * theta);
+% disp(-y' * log(hx) - (1 - y')*log(1 - hx));
+J = (-y' * log(hx) - (1-y') * log(1-hx))/m;
+% J = sum(-y' * log(hx) - (1 - y')*log(1 - hx)) / m;
+grad = ((hx - y)' * X / m)';
 
 % ====================== YOUR CODE HERE ======================
 % Instructions: Compute the cost of a particular choice of theta.
