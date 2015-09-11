@@ -21,9 +21,12 @@ n = length(theta);
 theta_1 = theta;
 theta_1(1) = 0;
 
-J = 1/m * ( -y' * log(sigmoid(X*theta)) - (1-y)' * log(1 - sigmoid(X*theta))) + lambda/(2*m) * sum (theta_1 .* theta_1);
+h = sigmoid(X * theta);
+J = (-y' * log(h) - (1-y)' * log(1-h))/m + lambda/(2*m) * sum (theta_1 .* theta_1);
+grad = (X' * (h - y) + lambda .* theta_1)./ m;
 
-grad = (X' * (sigmoid(X*theta)-y) + lambda .* theta_1)./ m;
+% J = 1/m * ( -y' * log(sigmoid(X*theta)) - (1-y)' * log(1 - sigmoid(X*theta))) + lambda/(2*m) * sum (theta_1 .* theta_1);
+% grad = (X' * (sigmoid(X*theta)-y) + lambda .* theta_1)./ m;
 
 % =============================================================
 
