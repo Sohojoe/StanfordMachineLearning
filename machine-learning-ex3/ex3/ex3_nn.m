@@ -73,23 +73,33 @@ pause;
 %  Randomly permute examples
 rp = randperm(m);
 
-scores = predictRawScores(Theta1, Theta2, X);
-
 for i = 1:m
     % Display 
-    fprintf('\nDisplaying Example Image\n');
+%     fprintf('\nDisplaying Example Image\n');
     displayData(X(rp(i), :));
+    
+    isCorrect = pred(rp(i)) == y(rp(i));
+    if (isCorrect)
+        outcome = 'SUCCESS';
+    else
+        outcome = 'FAILED';
+    end
 
 %     pred = predict(Theta1, Theta2, X(rp(i),:));
 %     fprintf('\nNeural Network Prediction: %d (digit %d)\n', pred, mod(pred, 10));
 
     scoreRaw = predictRawScores(Theta1, Theta2, X(rp(i),:));
     [score,idx] = sort(scoreRaw, 'descend');
-    fprintf('\nNeural Network Prediction: 1st:"%d" (%.f%%), 2nd:"%d" (%.f%%), 3rd:"%d" (%.f%%)\n', ...
+    fprintf('Actual = "%d"... Guess %s: 1st:"%d" (%.f%%), 2nd:"%d" (%.f%%), 3rd:"%d" (%.f%%)\n', ...
+        y(rp(i)), ...
+        outcome, ...
         idx(1), score(1)*100, ...
         idx(2), score(2)*100, ...
         idx(3), score(3)*100);
-    
+
+    if (isCorrect)
+        continue;
+    end
     % Pause
     fprintf('Program paused. Press enter to continue.\n');
     pause;
