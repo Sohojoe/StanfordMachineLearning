@@ -64,20 +64,46 @@ Theta2_grad = zeros(size(Theta2));
 
 
 
+% 1. Feedforward the neural network; compute variable J.
+input = [ones(1, size(X', 2)); X'];
+z2 = Theta1 * input;
+hidden1 = sigmoid(z2);
+hidden1 = [ones(1, size(hidden1, 2)); hidden1];
+z3 = Theta2 * hidden1;
+output = sigmoid(z3);
+
+% Explode y into 10 values with Y[i] := i == y.
+Y = zeros(num_labels, m);
+Y(sub2ind(size(Y), y', 1:m)) = 1;
+% Y = eye(num_labels)(y,:);
+% y = eye(num_labels)(y,:);
+
+% Compute the non-regularized error. Fully vectorized, at the expense of
+% having an expanded Y in memory (which is 1/40th the size of X, so it should be
+% fine).
+J = (1/m) * sum(sum(-Y .* log(output) - (1 - Y) .* log(1 - output)));
+% J = (1/m) * sum(sum(-y .* log(output) - (1 - y) .* log(1 - output)));
+
+% Add regularized error. Drop the bias terms in the 1st columns.
+t1 = Theta1(:,2:size(Theta1,2));
+t2 = Theta2(:,2:size(Theta2,2));
+reg = lambda  * (sum( sum ( t1.^ 2 )) + sum( sum ( t2.^ 2 ))) / (2*m);
+% J = J + reg;
 
 
+% 2. Backpropagate to get gradient information.
+d3 = output - Y;  % 10 x m
+d2 = (Theta2' * d3) .* [ones(1, m); sigmoidGradient(z2)];  % 26 x m
 
+% Vectorized ftw:
+Theta2_grad = (1/m) * d3 * hidden1';
+Theta1_grad = (1/m) * d2(2:end, :) * input';
 
-
-
-
-
-
-
-
-
-
-
+% Add gradient regularization.
+Theta2_grad = Theta2_grad + ...
+              (lambda / m) * ([zeros(size(Theta2, 1), 1), Theta2(:, 2:end)]);
+Theta1_grad = Theta1_grad + ...
+              (lambda / m) * ([zeros(size(Theta1, 1), 1), Theta1(:, 2:end)]);
 
 
 % -------------------------------------------------------------
