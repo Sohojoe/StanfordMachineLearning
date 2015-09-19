@@ -11,6 +11,7 @@ function [lambda_vec, error_train, error_val] = ...
 
 % Selected values of lambda (you should not change this)
 lambda_vec = [0 0.001 0.003 0.01 0.03 0.1 0.3 1 3 10]';
+% lambda_vec = [0 0.01 0.02 0.04 0.08 0.16 0.32 0.64 1.28 2.56 5.12 10.24]';
 
 % You need to return these variables correctly.
 error_train = zeros(length(lambda_vec), 1);
@@ -39,7 +40,17 @@ error_val = zeros(length(lambda_vec), 1);
 %
 %
 
-
+    for i = 1:length(lambda_vec)
+        lambda = lambda_vec(i);
+        % Compute train / val errors when training linear 
+        % regression with regularization parameter lambda
+        theta = trainLinearReg(X, y, lambda);
+        [errorTrainI,gradTrainI]=linearRegCostFunction(X,y,theta,0);
+        [errorValI,gradValI]=linearRegCostFunction(Xval,yval,theta,0);
+        % store the result in error_train(i) and error_val(i)
+        error_train(i) = errorTrainI;
+        error_val(i) = errorValI;
+    end
 
 
 
