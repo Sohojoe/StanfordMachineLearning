@@ -51,8 +51,8 @@ fprintf('\nTraining Linear SVM ...\n')
 % You should try to change the C value below and see how the decision
 % boundary varies (e.g., try C = 1000)
 % cv = [16384 8192 4096 2048 1024 512 256 128 100 64 32 16 8 4 2 1 0.3 0.1 0.03 0.01 0.003 0.001 0];
-cv = [1 3 10 30 100 300 1000 3000 10000 30000 100000 300000 1000000];
-% cv = [100];
+% cv = [1 3 10 30 100 300 1000 3000 10000 30000 100000 300000 1000000];
+cv = [100];
 while (length(cv))
 C = cv(1);
 cv = cv (2:length(cv));
