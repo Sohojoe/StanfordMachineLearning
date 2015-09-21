@@ -150,9 +150,51 @@ load('ex6data3.mat');
 % Try different SVM Parameters here
 [C, sigma] = dataset3Params(X, y, Xval, yval);
 
+Cs = [0.01 0.03 0.1 0.3 1 3 10 30];
+sigmas = [0.01 0.03 0.1 0.3 1 3 10 30];
+inputs = zeros(length(Cs) * length(sigmas), 2); 
+scores = zeros(length(inputs), 1);
+
+i = 1;
+for C = Cs
+    for sigma = sigmas
+      inputs(i,1) = C;
+      inputs(i,2) = sigma;
+      fprintf('C = %f, sigma = %f\n', C, sigma);
+      i = i+1;
+    end
+end
+
+i = 1;
+for input = inputs'
+    C = input(1);
+    sigma = input (2);
+    model= svmTrain(X, y, C, @(x1, x2) gaussianKernel(x1, x2, sigma));
+    predictions = svmPredict(model,Xval);
+    score = mean(double(predictions ~= yval));
+    scores(i, 1) = score;
+    fprintf('score = %f, C = %f, sigma = %f\n', score, C, sigma);
+    i = i+1;
+end
+    [winner,winnerIdx] = min(scores);
+    input = inputs(winnerIdx,:);
+    C = input(1);
+    sigma = input (2);
+    model= svmTrain(X, y, C, @(x1, x2) gaussianKernel(x1, x2, sigma));
+    visualizeBoundary(X, y, model);
+    fprintf('winner: C = %f, sigma = %f. score = %f, idx = %d \n', C, sigma, winner, winnerIdx);
+    pause;
+
 % Train the SVM
-model= svmTrain(X, y, C, @(x1, x2) gaussianKernel(x1, x2, sigma));
-visualizeBoundary(X, y, model);
+% fprintf('C = %f, sigma = %f\n', C, sigma);
+% model= svmTrain(X, y, C, @(x1, x2) gaussianKernel(x1, x2, sigma));
+% visualizeBoundary(X, y, model);
+% score = svmPredict(model,X);
+% fprintf('score = %d, C = %f, sigma = %f\n', score, C, sigma);
+% pause;
+
+% model= svmTrain(X, y, C, @(x1, x2) gaussianKernel(x1, x2, sigma));
+% visualizeBoundary(X, y, model);
 
 fprintf('Program paused. Press enter to continue.\n');
 pause;
