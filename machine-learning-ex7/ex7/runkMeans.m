@@ -43,6 +43,12 @@ for i=1:max_iters
     % For each example in X, assign it to the closest centroid
     idx = findClosestCentroids(X, centroids);
     
+    if (centroids ~= initial_centroids) 
+        if (centroids == previous_centroids)
+            break;
+        end
+    end
+    
     % Optionally, plot progress here
     if plot_progress
         plotProgresskMeans(X, centroids, previous_centroids, idx, K, i);
