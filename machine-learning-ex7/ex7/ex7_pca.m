@@ -144,8 +144,12 @@ pause;
 %  If you are applying a machine learning algorithm 
 fprintf('\nDimension reduction for face dataset.\n\n');
 
-K = 400;
-Z = projectData(X_norm, U, K);
+    varianceGoal = 0.01;
+    K = findKforS(S, varianceGoal);
+    fprintf('K = %d @ %.4f variance retained. (m is %d)\n\n', K, varianceGoal, length(S));
+
+    Z = projectData(X_norm, U, K);
+
 
 fprintf('The projected data Z has a size of: ')
 fprintf('%d ', size(Z));
